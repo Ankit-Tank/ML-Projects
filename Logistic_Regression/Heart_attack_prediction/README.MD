@@ -1,12 +1,12 @@
 # ❤️ Heart Attack Possibility Dataset
 
-📌 Overview :
+## 📌 Overview :
 
 This dataset is designed for predicting the possibility of heart attack (cardiovascular disease) using machine learning techniques. It contains various medical and physiological attributes of patients, which can be used to analyze risk factors and build predictive models.
 
 The primary objective is to classify whether a patient has a higher or lower chance of a heart attack based on input features.
 
-🎯 Problem Statement :
+## 🎯 Problem Statement :
 
 Cardiovascular diseases are one of the leading causes of death worldwide. Early prediction can help in timely medical intervention.
 
@@ -21,7 +21,7 @@ The target variable indicates:
 0 → Less chance of heart attack
 1 → More chance of heart attack
 
-📊 Dataset Features :
+## 📊 Dataset Features :
 
 The dataset contains important medical attributes such as:
 
@@ -42,7 +42,7 @@ Target – Heart attack risk indicator
 
 These attributes are commonly used in medical diagnosis and predictive modeling of heart disease
 
-🔍 Use Cases :
+## 🔍 Use Cases :
 
 This dataset can be used for:
 
@@ -59,7 +59,7 @@ Takes patient health parameters as input
 Predicts the likelihood of a heart attack
 Helps identify important risk factors such as age, cholesterol, and heart rate
 
-📁 Dataset Source :
+## 📁 Dataset Source :
 
 Kaggle Dataset:
 https://www.kaggle.com/datasets/nareshbhat/health-care-data-set-on-heart-attack-possibility/data
