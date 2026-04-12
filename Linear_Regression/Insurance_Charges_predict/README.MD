@@ -24,6 +24,7 @@ In this project, we build a machine learning model that:
 The dataset contains records of individuals along with their demographic and health-related information.
 
 Each row represents:
+
 ➡️ A person  
 ➡️ Their attributes  
 ➡️ Their corresponding insurance cost  
