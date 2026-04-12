@@ -28,6 +28,7 @@ The dataset contains important medical attributes such as:
 Age – Age of the patient
 
 Sex – Gender (Male/Female)
+
 Chest Pain Type (cp) – Type of chest pain
 Resting Blood Pressure (trtbps) – Blood pressure in mm Hg
 Cholesterol (chol) – Serum cholesterol level
