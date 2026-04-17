@@ -2,7 +2,7 @@
 
 ---
 
-## 📊 Dataset Overview 
+## 📊 Dataset Overview
 
 The dataset used in this project contains employee-related information collected from a multinational organization. It is designed to analyze workforce patterns and predict employee attrition.
 
@@ -14,7 +14,7 @@ The dataset captures key factors such as job satisfaction, compensation, experie
 
 ---
 
-## 🎯 Problem Statement : hello
+## 🎯 Problem Statement
 
 Employee attrition leads to:
 - Increased recruitment costs  
