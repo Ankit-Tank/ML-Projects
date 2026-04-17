@@ -10,7 +10,7 @@ The dataset used in this project contains employee-related information collected
 - **Total Features:** 15 (including engineered features)  
 - **Problem Type:** Binary Classification  
 
-The dataset captures key factors such as job satisfaction, compensation, experience, and work-life balance.
+The dataset captures key factors such as job satisfaction, compensation, experience, and work-life balance. 
 
 ---
 
