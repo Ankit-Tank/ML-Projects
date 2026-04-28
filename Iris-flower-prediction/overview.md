@@ -1,5 +1,5 @@
 # 🌸 Iris Flower Species Prediction
-### Supervised ML — Assignment 3
+### Supervised Machine Learning
 
 ![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python)
 ![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-ML-orange?logo=scikit-learn)
@@ -49,7 +49,7 @@ Train and compare **3 classification models**:
 ## 🗂️ Project Structure
 
 ```
-📦 iris-flower-prediction
+📦 Iris-flower-prediction
  ┣ 📓 predict_flower_species_combined.ipynb   ← All 3 models in one notebook
  ┣ 📄 Iris.csv                                ← Dataset
  ┗ 📄 overview.md
@@ -95,7 +95,7 @@ Train and compare **3 classification models**:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/iris-flower-prediction.git
+git clone https://github.com/Ankit-Tank/Iris-flower-prediction.git
 
 # 2. Install dependencies
 pip install pandas scikit-learn jupyter
