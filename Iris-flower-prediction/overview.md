@@ -95,15 +95,18 @@ Train and compare **3 classification models**:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Ankit-Tank/Iris-flower-prediction.git
+git clone https://github.com/Ankit-Tank/ML-Projects.git
 
-# 2. Install dependencies
+# 2. Go into the Iris folder
+cd ML-Projects/Iris-flower-prediction
+
+# 3. Install dependencies
 pip install pandas scikit-learn jupyter
 
-# 3. Launch Jupyter Notebook
+# 4. Launch Jupyter Notebook
 jupyter notebook
 
-# 4. Open predict_flower_species_combined.ipynb and run all cells
+# 5. Open predict_flower_species_combined.ipynb and run all cells
 ```
 
 ---
