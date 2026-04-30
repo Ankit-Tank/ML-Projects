@@ -48,7 +48,6 @@ This repository contains hands-on ML projects built to learn and demonstrate cor
 |---|---|---|---|---|
 | 4 | 👥 Employee Turnover Prediction | `employee_turnover.csv` | [employee_prediction.ipynb](./Logistic_Regression/Employee_turnover/employee_prediction.ipynb) | [overview.md](./Logistic_Regression/Employee_turnover/overview.md) |
 | 5 | ❤️ Heart Attack Prediction | `heart.csv` | [heart_attack_possibility.ipynb](./Logistic_Regression/Heart_attack_prediction/heart_attack_possibility.ipynb) | [overview.md](./Logistic_Regression/Heart_attack_prediction/overview.md) |
-| 6 | 🌸 Flower Species Classification | `iris.csv` | [predict_flower_species.ipynb](./Logistic_Regression/Flower_Species/predict_flower_species.ipynb) | — |
 
 ---
 
@@ -56,11 +55,11 @@ This repository contains hands-on ML projects built to learn and demonstrate cor
 
 | # | Metric | Notebook |
 |---|---|---|
-| 7 | ✅ Accuracy | [accuracy.ipynb](./Logistic_Regression/Evaluation_Metrices/accuracy.ipynb) |
-| 8 | 🎯 Precision | [precision.ipynb](./Logistic_Regression/Evaluation_Metrices/precision.ipynb) |
-| 9 | 🔁 Recall | [recall.ipynb](./Logistic_Regression/Evaluation_Metrices/recall.ipynb) |
-| 10 | 📐 F1 Score | [f1_score.ipynb](./Logistic_Regression/Evaluation_Metrices/f1%20score.ipynb) |
-| 11 | 🟦 Confusion Matrix | [confusion_metrix.ipynb](./Logistic_Regression/Evaluation_Metrices/confusion%20metrix.ipynb) |
+| 6 | ✅ Accuracy | [accuracy.ipynb](./Logistic_Regression/Evaluation_Metrices/accuracy.ipynb) |
+| 7 | 🎯 Precision | [precision.ipynb](./Logistic_Regression/Evaluation_Metrices/precision.ipynb) |
+| 8 | 🔁 Recall | [recall.ipynb](./Logistic_Regression/Evaluation_Metrices/recall.ipynb) |
+| 9 | 📐 F1 Score | [f1_score.ipynb](./Logistic_Regression/Evaluation_Metrices/f1%20score.ipynb) |
+| 10 | 🟦 Confusion Matrix | [confusion_metrix.ipynb](./Logistic_Regression/Evaluation_Metrices/confusion%20metrix.ipynb) |
 
 ---
 
@@ -68,8 +67,8 @@ This repository contains hands-on ML projects built to learn and demonstrate cor
 
 | # | Project | Dataset | Notebook |
 |---|---|---|---|
-| 12 | 🫀 KNN Classification | `heart.csv` | [knn.ipynb](./KNN/knn.ipynb) |
-| 13 | 🔄 Cross Validation | — | [cross_validation.ipynb](./KNN/cross%20validation.ipynb) |
+| 11 | 🫀 KNN Classification | `heart.csv` | [knn.ipynb](./KNN/knn.ipynb) |
+| 12 | 🔄 Cross Validation | — | [cross_validation.ipynb](./KNN/cross%20validation.ipynb) |
 
 ---
 
@@ -77,7 +76,7 @@ This repository contains hands-on ML projects built to learn and demonstrate cor
 
 | # | Project | Dataset | Notebook | Overview |
 |---|---|---|---|---|
-| 14 | 🌸 Iris Flower Species | `Iris.csv` | [predict_flower_species_combined.ipynb](./Iris-flower-prediction/predict_flower_species_combined.ipynb) | [overview.md](./Iris-flower-prediction/overview.md) |
+| 13 | 🌸 Iris Flower Species | `Iris.csv` | [predict_flower_species_combined.ipynb](./Iris-flower-prediction/predict_flower_species_combined.ipynb) | [overview.md](./Iris-flower-prediction/overview.md) |
 
 ---
 
@@ -85,7 +84,7 @@ This repository contains hands-on ML projects built to learn and demonstrate cor
 
 | # | Project | Dataset | Notebook |
 |---|---|---|---|
-| 15 | 📊 Naive Bayes Classifier | `heart.csv` | [naive_bayes.ipynb](./Naive_Bayes/naive%20bayes.ipynb) |
+| 14 | 📊 Naive Bayes Classifier | `heart.csv` | [naive_bayes.ipynb](./Naive_Bayes/naive%20bayes.ipynb) |
 
 ---
 
