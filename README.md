@@ -101,7 +101,6 @@ ML-Projects/
 ├── 📁 Logistic_Regression/
 │   ├── 📁 Employee_turnover/
 │   ├── 📁 Heart_attack_prediction/
-│   ├── 📁 Flower_Species/
 │   └── 📁 Evaluation_Metrices/
 │       ├── accuracy.ipynb
 │       ├── precision.ipynb
