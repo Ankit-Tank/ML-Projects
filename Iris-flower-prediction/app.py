@@ -129,4 +129,59 @@ with st.sidebar:
     model_choice = st.selectbox("Select Intelligence Model", list(manager.models.keys()))
     st.divider()
     st.markdown("### 📏 Adjust Measurements")
-    sl = 
+    sl = st.slider("Sepal Length (cm)", 4.0, 8.0, 5.8, step=0.1)
+    sw = st.slider("Sepal Width (cm)", 2.0, 4.5, 3.0, step=0.1)
+    pl = st.slider("Petal Length (cm)", 1.0, 7.0, 4.4, step=0.1)
+    pw = st.slider("Petal Width (cm)", 0.1, 2.5, 1.4, step=0.1)
+
+st.markdown("<h1 class='stTitle'>IRIS INTELLIGENCE PRO</h1>", unsafe_allow_html=True)
+
+tabs = st.tabs(["🎯 Live Prediction", "📊 Dataset Analysis", "📈 Performance Matrix"])
+
+with tabs[0]:
+    species, probs, classes = manager.predict(model_choice, [sl, sw, pl, pw])
+    
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        st.markdown(f'''
+        <div class="prediction-output">
+            <p style="color: #aaa; font-size: 1.1rem; margin-bottom: 5px;">PROBABLE SPECIES</p>
+            <p class="prediction-value">{species}</p>
+        </div>
+        ''', unsafe_allow_html=True)
+        
+        fig_gauge = go.Figure(go.Indicator(
+            mode = "gauge+number", value = max(probs)*100,
+            number = {'suffix': "%", 'font': {'color': '#00ff7f'}},
+            gauge = {'bar': {'color': "#00ff7f"}, 'bgcolor': "rgba(0,0,0,0.2)", 'axis': {'range': [0, 100]}}
+        ))
+        fig_gauge.update_layout(paper_bgcolor='rgba(0,0,0,0)', font={'color': "#e0e0e0"}, height=280, margin=dict(t=0, b=0))
+        st.plotly_chart(fig_gauge, use_container_width=True)
+
+    with col2:
+        st.markdown("<div class='metric-card'><h3>Class Probability Distribution</h3>", unsafe_allow_html=True)
+        prob_df = pd.DataFrame({"Species": classes, "Probability": probs}).sort_values('Probability')
+        fig_probs = px.bar(prob_df, y="Species", x="Probability", orientation='h', color="Probability", color_continuous_scale='Blues')
+        fig_probs.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', font={'color': "#e0e0e0"}, height=320, xaxis=dict(showgrid=False))
+        st.plotly_chart(fig_probs, use_container_width=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+with tabs[1]:
+    st.markdown("### Botanical Data Distribution")
+    col_x = st.selectbox("Select X Axis", manager.features, index=2)
+    col_y = st.selectbox("Select Y Axis", manager.features, index=3)
+    fig_scatter = px.scatter(manager.df, x=col_x, y=col_y, color="Species", template="plotly_dark", size_max=10)
+    fig_scatter.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+    st.plotly_chart(fig_scatter, use_container_width=True)
+
+with tabs[2]:
+    st.markdown("### Model Benchmark Results")
+    perf_df = pd.DataFrame([{"Model": k, "Accuracy": f"{v['Accuracy']:.2%}", "Precision": f"{v['Precision']:.2%}"} for k,v in manager.metrics.items()])
+    st.table(perf_df)
+    
+    if model_choice == "Random Forest":
+        st.markdown("### Feature Importance (Decision Weights)")
+        imp = pd.DataFrame({"Feature": manager.features, "Importance": manager.models["Random Forest"].feature_importances_}).sort_values('Importance')
+        st.plotly_chart(px.bar(imp, x="Importance", y="Feature", orientation='h', color_discrete_sequence=['#00d2ff']), use_container_width=True)
+
+st.markdown("<p style='text-align: center; color: #666; margin-top: 50px;'>Professional Iris Classifier Engine • 2026</p>", unsafe_allow_html=True)
