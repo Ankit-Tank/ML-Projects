@@ -36,7 +36,7 @@ st.markdown("""
 
 # ── Data Loading & Model Training ───────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CSV_PATH = os.path.join(BASE_DIR, "Iris (1).csv")
+CSV_PATH = os.path.join(BASE_DIR, "Iris .csv")
 NOTEBOOK_PATH = os.path.join(BASE_DIR, "predict_flower_species_combined (1).ipynb")
 
 @st.cache_resource
