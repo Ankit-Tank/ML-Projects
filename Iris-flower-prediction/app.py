@@ -10,13 +10,13 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score
+from sklearn.datasets import load_iris # Backup data source
 
 # ==========================================
-# 1. MODEL TRAINING & LOGIC CLASS
+# 1. SMART DATA LOADER & MODEL LOGIC
 # ==========================================
 class IrisModelManager:
-    def __init__(self, data_path='Iris.csv'):
-        self.data_path = data_path
+    def __init__(self):
         self.df = None
         self.scaler = StandardScaler()
         self.le = LabelEncoder()
@@ -24,15 +24,28 @@ class IrisModelManager:
         self.metrics = {}
         self.features = ["SepalLengthCm", "SepalWidthCm", "PetalLengthCm", "PetalWidthCm"]
 
-    def load_and_preprocess(self):
-        if not os.path.exists(self.data_path):
-            # Fallback for demo if file is missing
-            st.error(f"Dataset '{self.data_path}' not found! Please ensure it is in the same folder.")
-            st.stop()
+    def load_data(self):
+        # Try to find the file locally (checking common names)
+        possible_names = ['Iris.csv', 'Iris (1).csv', 'iris.csv']
+        found_file = None
+        for name in possible_names:
+            if os.path.exists(name):
+                found_file = name
+                break
         
-        self.df = pd.read_csv(self.data_path)
-        if 'Id' in self.df.columns:
-            self.df = self.df.drop('Id', axis=1)
+        if found_file:
+            self.df = pd.read_csv(found_file)
+            # Remove Id column if it exists
+            if 'Id' in self.df.columns:
+                self.df = self.df.drop('Id', axis=1)
+            # Standardize column names
+            self.df.columns = ["SepalLengthCm", "SepalWidthCm", "PetalLengthCm", "PetalWidthCm", "Species"]
+        else:
+            # FALLBACK: Load directly from Scikit-Learn if file is missing
+            st.warning("⚠️ Local CSV not found. Loading built-in botanical dataset...")
+            data = load_iris()
+            self.df = pd.DataFrame(data.data, columns=self.features)
+            self.df['Species'] = [data.target_names[i] for i in data.target]
         
         X = self.df[self.features]
         y = self.df["Species"]
@@ -47,9 +60,9 @@ class IrisModelManager:
         return X_train_scaled, X_test_scaled, y_train, y_test
 
     def train_models(self):
-        X_train, X_test, y_train, y_test = self.load_and_preprocess()
+        X_train, X_test, y_train, y_test = self.load_data()
         
-        # Train 3 different models
+        # Train Models
         lr = LogisticRegression(max_iter=1000).fit(X_train, y_train)
         knn = KNeighborsClassifier(n_neighbors=5).fit(X_train, y_train)
         rf = RandomForestClassifier(n_estimators=100, random_state=42).fit(X_train, y_train)
@@ -72,39 +85,34 @@ class IrisModelManager:
         return species, probabilities, self.le.classes_
 
 # ==========================================
-# 2. STREAMLIT UI CONFIGURATION
+# 2. UI CONFIGURATION
 # ==========================================
 st.set_page_config(page_title="Iris Intelligence Pro", page_icon="🌸", layout="wide")
 
-# Custom CSS Injection
 st.markdown("""
 <style>
-    .stApp { background: linear-gradient(135deg, #121212 0%, #1e1e2f 100%); color: #e0e0e0; }
+    .stApp { background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%); color: #e0e0e0; }
     .metric-card {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 15px; padding: 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 15px; padding: 25px;
         border: 1px solid rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px); margin-bottom: 20px;
     }
     .prediction-output {
-        text-align: center; padding: 30px;
-        background: rgba(76, 175, 80, 0.1);
-        border-radius: 20px; border: 2px solid #4CAF50; margin: 20px 0;
+        text-align: center; padding: 40px;
+        background: rgba(0, 255, 127, 0.05);
+        border-radius: 20px; border: 2px solid #00ff7f; margin: 20px 0;
+        box-shadow: 0 0 20px rgba(0, 255, 127, 0.2);
     }
-    .prediction-value { font-size: 2.5rem; font-weight: 700; color: #4CAF50; margin: 0; }
+    .prediction-value { font-size: 3rem; font-weight: 800; color: #00ff7f; margin: 0; text-transform: uppercase; letter-spacing: 2px;}
     .stTitle {
-        background: linear-gradient(90deg, #ff8a00, #e52e71);
+        background: linear-gradient(90deg, #00d2ff, #3a7bd5);
         -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        font-weight: 800 !important; font-size: 3rem !important;
-    }
-    .stButton>button {
-        background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-        color: white; border: none; border-radius: 8px; font-weight: 600;
+        font-weight: 800 !important; font-size: 3.5rem !important; text-align: center;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Initialize and cache the model manager
 @st.cache_resource
 def get_manager():
     manager = IrisModelManager()
@@ -114,65 +122,11 @@ def get_manager():
 manager = get_manager()
 
 # ==========================================
-# 3. SIDEBAR CONTROLS
+# 3. SIDEBAR & MAIN APP
 # ==========================================
 with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/346/346167.png", width=80)
-    st.title("Settings")
-    model_choice = st.selectbox("Classification Model", list(manager.models.keys()))
-    
+    st.markdown("<h2 style='text-align: center;'>⚙️ Controls</h2>", unsafe_allow_html=True)
+    model_choice = st.selectbox("Select Intelligence Model", list(manager.models.keys()))
     st.divider()
-    st.markdown("### Flower Dimensions")
-    sl = st.slider("Sepal Length", 4.0, 8.0, 5.8)
-    sw = st.slider("Sepal Width", 2.0, 4.5, 3.0)
-    pl = st.slider("Petal Length", 1.0, 7.0, 4.4)
-    pw = st.slider("Petal Width", 0.1, 2.5, 1.4)
-    
-    predict_btn = st.button("Predict Species", use_container_width=True)
-
-# ==========================================
-# 4. MAIN APP LAYOUT
-# ==========================================
-st.markdown("<h1 class='stTitle'>🌸 Iris Flower Species Predictor</h1>", unsafe_allow_html=True)
-
-tabs = st.tabs(["🎯 Prediction", "📊 Exploration", "📈 Model Stats"])
-
-with tabs[0]:
-    # Run prediction
-    species, probs, classes = manager.predict(model_choice, [sl, sw, pl, pw])
-    
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        st.markdown(f'<div class="prediction-output"><p>Predicted Species</p><p class="prediction-value">{species}</p></div>', unsafe_allow_html=True)
-        
-        fig_gauge = go.Figure(go.Indicator(
-            mode = "gauge+number", value = max(probs)*100,
-            title = {'text': "Confidence %", 'font': {'color': "#e0e0e0"}},
-            gauge = {'bar': {'color': "#4CAF50"}, 'bgcolor': "rgba(0,0,0,0)"}
-        ))
-        fig_gauge.update_layout(paper_bgcolor='rgba(0,0,0,0)', font={'color': "#e0e0e0"}, height=250)
-        st.plotly_chart(fig_gauge, use_container_width=True)
-
-    with col2:
-        st.markdown("<div class='metric-card'><h3>Probabilities</h3>", unsafe_allow_html=True)
-        prob_df = pd.DataFrame({"Species": classes, "Probability": probs})
-        fig_probs = px.bar(prob_df, y="Species", x="Probability", orientation='h', color="Probability", color_continuous_scale='Viridis')
-        fig_probs.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', font={'color': "#e0e0e0"}, height=300)
-        st.plotly_chart(fig_probs, use_container_width=True)
-        st.markdown("</div>", unsafe_allow_html=True)
-
-with tabs[1]:
-    st.markdown("### Data Insights")
-    fig_scatter = px.scatter(manager.df, x="PetalLengthCm", y="PetalWidthCm", color="Species", template="plotly_dark")
-    fig_scatter.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
-    st.plotly_chart(fig_scatter, use_container_width=True)
-    st.dataframe(manager.df.head(10), use_container_width=True)
-
-with tabs[2]:
-    st.markdown("### Model Benchmarking")
-    perf_df = pd.DataFrame([{"Model": k, "Accuracy": f"{v['Accuracy']:.2%}"} for k,v in manager.metrics.items()])
-    st.table(perf_df)
-    
-    if model_choice == "Random Forest":
-        imp = pd.DataFrame({"Feature": manager.features, "Importance": manager.models["Random Forest"].feature_importances_})
-        st.plotly_chart(px.bar(imp, x="Importance", y="Feature", orientation='h', title="Feature Importance"), use_container_width=True)
+    st.markdown("### 📏 Adjust Measurements")
+    sl = 
