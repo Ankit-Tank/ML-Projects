@@ -58,11 +58,11 @@ def prepare_environment():
     
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
     
+    # 3. Train Models (Using .values to bypass feature name validation errors)
     scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    X_train_scaled = scaler.fit_transform(X_train.values)
+    X_test_scaled = scaler.transform(X_test.values)
     
-    # 3. Train Models
     models = {
         "Logistic Regression": LogisticRegression(max_iter=200),
         "KNN": KNeighborsClassifier(n_neighbors=5),
@@ -71,13 +71,13 @@ def prepare_environment():
     
     models["Logistic Regression"].fit(X_train_scaled, Y_train)
     models["KNN"].fit(X_train_scaled, Y_train)
-    models["Naive Bayes"].fit(X_train, Y_train) # NB uses unscaled data
+    models["Naive Bayes"].fit(X_train.values, Y_train) 
     
     # Calculate Accuracies
     accuracies = {
         "Logistic Regression": accuracy_score(Y_test, models["Logistic Regression"].predict(X_test_scaled)),
         "KNN": accuracy_score(Y_test, models["KNN"].predict(X_test_scaled)),
-        "Naive Bayes": accuracy_score(Y_test, models["Naive Bayes"].predict(X_test))
+        "Naive Bayes": accuracy_score(Y_test, models["Naive Bayes"].predict(X_test.values))
     }
     
     return models, scaler, le, accuracies, df, features
@@ -128,14 +128,14 @@ with tab1:
         
         input_data = pd.DataFrame([[sepal_len, sepal_wid, petal_len, petal_wid]], columns=features)
         
-        # Inference Logic
+        # Inference Logic (using .values to strip names)
         if model_choice in ["Logistic Regression", "KNN"]:
-            scaled_data = scaler.transform(input_data)
+            scaled_data = scaler.transform(input_data.values)
             pred_idx = models[model_choice].predict(scaled_data)[0]
             proba = models[model_choice].predict_proba(scaled_data)[0]
         else:
-            pred_idx = models["Naive Bayes"].predict(input_data)[0]
-            proba = models["Naive Bayes"].predict_proba(input_data)[0]
+            pred_idx = models["Naive Bayes"].predict(input_data.values)[0]
+            proba = models["Naive Bayes"].predict_proba(input_data.values)[0]
             
         species_name = le.inverse_transform([pred_idx])[0]
         confidence = proba[pred_idx] * 100
@@ -226,9 +226,9 @@ y = df["Species"]
 # Train/Test Split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Scale
+# Scale (using .values avoids strict feature-name validation)
 scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
+X_train_scaled = scaler.fit_transform(X_train.values)
 
 # Fit
 model = LogisticRegression()
