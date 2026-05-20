@@ -36,8 +36,8 @@ st.markdown("""
 
 # ── Data Loading & Model Training ───────────────────────────────────────────
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CSV_PATH = os.path.join(BASE_DIR, "Iris .csv")
-NOTEBOOK_PATH = os.path.join(BASE_DIR, "predict_flower_species_combined (1).ipynb")
+CSV_PATH = os.path.join(BASE_DIR, "Iris.csv")
+NOTEBOOK_PATH = os.path.join(BASE_DIR, "predict_flower_species_combined.ipynb")
 
 @st.cache_resource
 def prepare_environment():
@@ -45,7 +45,6 @@ def prepare_environment():
     try:
         df = pd.read_csv(CSV_PATH)
     except FileNotFoundError:
-        # Fallback empty dataframe to prevent crash if file missing
         df = pd.DataFrame(columns=["Id", "SepalLengthCm", "SepalWidthCm", "PetalLengthCm", "PetalWidthCm", "Species"])
         return None, None, None, None, df, None
 
@@ -96,7 +95,7 @@ st.markdown("<p class='main-title'>Iris AI Explorer</p>", unsafe_allow_html=True
 st.markdown("<p class='sub-title'>Advanced Machine Learning Classification for Botanical Identification</p>", unsafe_allow_html=True)
 
 if df.empty:
-    st.error(f"Dataset not found at `{CSV_PATH}`. Please ensure the file is in the same directory as this script.")
+    st.error(f"Dataset not found at `{CSV_PATH}`. Please ensure 'Iris.csv' is in the exact same folder as your Python script.")
     st.stop()
 
 # ── Main Tabs ───────────────────────────────────────────────────────────────
@@ -181,8 +180,11 @@ with tab2:
         st.write("---")
         st.dataframe(df.drop(columns=["Species_Encoded"]).head(15), use_container_width=True, height=250)
         
-        with open(CSV_PATH, "rb") as file:
-             st.download_button(label="📥 Download Iris.csv", data=file, file_name="Iris.csv", mime="text/csv", use_container_width=True)
+        try:
+            with open(CSV_PATH, "rb") as file:
+                 st.download_button(label="📥 Download Iris.csv", data=file, file_name="Iris.csv", mime="text/csv", use_container_width=True)
+        except FileNotFoundError:
+            pass
 
     with col2:
         # Interactive 3D Scatter Plot
