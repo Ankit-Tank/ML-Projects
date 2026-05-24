@@ -58,14 +58,14 @@
 ```
                     ╭──────────────────────────────────────────╮
                     │                                          │
-        INPUT       │         ML-Projects  🧠                  │       OUTPUT
+        INPUT       │              ML-Projects  🧠             │         OUTPUT
        LAYER        │                                          │       LAYER
                     │    Raw Data  ──►  Learn  ──►  Predict    │
     ┌──────────┐    │                                          │    ┌──────────┐
-    │  .csv    │───►│   Linear   Logistic   KNN   Naive Bayes │───►│  Model   │
+    │  .csv    │───►│   Linear   Logistic   KNN   Naive Bayes  │───►│  Model   │
     │ datasets │    │   Reg.     Reg.       KNN   NB           │    │  Result  │
     └──────────┘    │                                          │    └──────────┘
-                    │      + Scratch Implementations ⚙️         │
+                    │      + Scratch Implementations ⚙️        │
                     ╰──────────────────────────────────────────╯
 ```
 
