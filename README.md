@@ -114,7 +114,7 @@
 
 | Algorithm | Library | From Scratch | Projects | Status |
 |:----------|:-------:|:------------:|:--------:|:------:|
-| Linear Regression | ✅ | ✅ OLS + Gradient | 3 | `Complete` |
+| Linear Regression | ✅ | `Status - Working` | 3 | `Complete` |
 | Lasso Regression | ✅ | — | 1 | `Complete` |
 | Logistic Regression | ✅ | — | 2 | `Complete` |
 | K-Nearest Neighbors | ✅ | — | 2 | `Complete` |
