@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CreditWise · SecureTrust Bank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ── Reset & Root ─────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg:     #06090F;
+  --card:   #0D1220;
+  --border: rgba(255,255,255,0.07);
+  --gold:   #C8A96E;
+  --gold2:  #E2C98A;
+  --dim:    rgba(200,169,110,0.12);
+  --t1:     #F0EDE8;
+  --t2:     #9CA3AF;
+  --t3:     #374151;
+  --green:  #10B981;
+  --red:    #EF4444;
+  --blue:   #38BDF8;
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--t1);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ── Noise texture overlay ────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+  background-size: 200px;
+  opacity: 0.5;
+}
+
+/* ── Ambient glow ─────────────────────────── */
+.glow-orb {
+  position: fixed; border-radius: 50%; pointer-events: none; z-index: 0;
+  filter: blur(100px); opacity: 0.12;
+}
+.glow-orb.one {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, #C8A96E, transparent 70%);
+  top: -200px; right: -100px;
+  animation: drift1 14s ease-in-out infinite alternate;
+}
+.glow-orb.two {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #38BDF8, transparent 70%);
+  bottom: 0; left: -100px;
+  animation: drift2 18s ease-in-out infinite alternate;
+}
+@keyframes drift1 { to { transform: translate(-60px, 80px); } }
+@keyframes drift2 { to { transform: translate(80px, -60px); } }
+
+/* ── NAV ──────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 4rem;
+  background: rgba(6,9,15,0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 12px; text-decoration: none;
+}
+.nav-hex {
+  width: 36px; height: 36px; border-radius: 9px;
+  background: linear-gradient(135deg,#C8A96E,#7A5C2E);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 0 20px rgba(200,169,110,0.35);
+}
+.nav-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-weight: 700;
+  color: var(--t1); letter-spacing: 0.02em;
+}
+.nav-links { display: flex; align-items: center; gap: 2.5rem; }
+.nav-links a {
+  color: var(--t2); text-decoration: none; font-size: 0.85rem;
+  letter-spacing: 0.04em; transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  background: transparent !important;
+  border: 1px solid rgba(200,169,110,0.4) !important;
+  color: var(--gold) !important;
+  padding: 0.45rem 1.4rem !important;
+  border-radius: 8px !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.nav-cta:hover {
+  background: var(--dim) !important;
+  box-shadow: 0 0 20px rgba(200,169,110,0.2) !important;
+}
+
+/* ── HERO ─────────────────────────────────── */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 8rem 2rem 6rem;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.3);
+  border-radius: 20px; padding: 6px 16px;
+  font-size: 0.72rem; color: var(--green);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  font-weight: 600; margin-bottom: 2.4rem;
+  animation: fadeUp 0.6s ease both;
+}
+.badge-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s ease infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.5; transform: scale(0.8); }
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.2rem, 7vw, 6.2rem);
+  font-weight: 700; line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.6rem;
+  animation: fadeUp 0.7s 0.1s ease both;
+}
+.hero-title .highlight {
+  background: linear-gradient(135deg, #C8A96E, #E2C98A, #9A7A42);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  max-width: 620px; color: var(--t2);
+  font-size: 1.1rem; line-height: 1.7;
+  margin-bottom: 3rem;
+  animation: fadeUp 0.7s 0.2s ease both;
+}
+.hero-actions {
+  display: flex; gap: 1rem; align-items: center; justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp 0.7s 0.3s ease both;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(135deg, #C8A96E, #9A7A42);
+  color: #06090F; font-weight: 700;
+  font-size: 0.9rem; letter-spacing: 0.06em;
+  text-transform: uppercase; text-decoration: none;
+  padding: 1rem 2.2rem; border-radius: 12px;
+  border: none; cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: 0 4px 30px rgba(200,169,110,0.25);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(200,169,110,0.4);
+}
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent;
+  color: var(--t1); font-size: 0.88rem;
+  text-decoration: none; padding: 1rem 2rem;
+  border: 1px solid var(--border); border-radius: 12px;
+  transition: all 0.25s;
+}
+.btn-secondary:hover {
+  border-color: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.03);
+}
+
+/* ── SCROLL HINT ──────────────────────────── */
+.scroll-hint {
+  position: absolute; bottom: 2.5rem; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  color: var(--t3); font-size: 0.72rem; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  animation: fadeUp 1s 0.8s ease both;
+}
+.scroll-arrow {
+  width: 1px; height: 36px;
+  background: linear-gradient(to bottom, transparent, var(--t3));
+  animation: scrollLine 2s ease infinite;
+}
+@keyframes scrollLine {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: top; }
+  50.01%{ transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ── STATS STRIP ──────────────────────────── */
+.stats-strip {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(13,18,32,0.6);
+  backdrop-filter: blur(10px);
+  display: flex; justify-content: center;
+}
+.stats-inner {
+  display: flex; max-width: 1100px; width: 100%;
+}
+.stat-item {
+  flex: 1; padding: 2.5rem 1.5rem; text-align: center;
+  border-right: 1px solid var(--border);
+  animation: fadeUp 0.6s ease both;
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem; font-weight: 700;
+  color: var(--gold); line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-label {
+  color: var(--t2); font-size: 0.78rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+
+/* ── FEATURES ─────────────────────────────── */
+.section {
+  position: relative; z-index: 1;
+  max-width: 1200px; margin: 0 auto;
+  padding: 7rem 2rem;
+}
+.section-eyebrow {
+  color: var(--gold); font-size: 0.72rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  font-weight: 600; margin-bottom: 1rem;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+  line-height: 1.15; margin-bottom: 1.2rem;
+}
+.section-sub {
+  color: var(--t2); max-width: 520px;
+  font-size: 1rem; line-height: 1.7;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem; margin-top: 4rem;
+}
+.feat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 2rem;
+  transition: all 0.3s;
+  position: relative; overflow: hidden;
+}
+.feat-card::before {
+  content: ''; position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.feat-card:hover {
+  border-color: rgba(200,169,110,0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.feat-card:hover::before { opacity: 1; }
+.feat-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: var(--dim); display: flex;
+  align-items: center; justify-content: center;
+  font-size: 24px; margin-bottom: 1.4rem;
+}
+.feat-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem; font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+.feat-desc { color: var(--t2); font-size: 0.88rem; line-height: 1.65; }
+
+/* ── MODELS SECTION ───────────────────────── */
+.models-section {
+  position: relative; z-index: 1;
+  background: rgba(13,18,32,0.5);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 6rem 2rem;
+}
+.models-inner {
+  max-width: 1100px; margin: 0 auto;
+}
+.models-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-top: 3.5rem;
+}
+.model-card {
+  background: #06090F;
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 2rem;
+  text-align: center; position: relative;
+  transition: all 0.3s;
+}
+.model-card.featured {
+  border-color: rgba(200,169,110,0.3);
+  box-shadow: 0 0 40px rgba(200,169,110,0.08);
+}
+.model-card.featured::after {
+  content: 'Best'; position: absolute;
+  top: -12px; left: 50%; transform: translateX(-50%);
+  background: linear-gradient(135deg,#C8A96E,#9A7A42);
+  color: #06090F; font-size: 0.65rem;
+  font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 3px 12px;
+  border-radius: 20px;
+}
+.model-card:hover { transform: translateY(-4px); }
+.model-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 700; margin-bottom: 0.6rem;
+}
+.model-acc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem; font-weight: 700;
+  color: var(--gold); line-height: 1; margin: 1rem 0;
+}
+.model-metrics {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; margin-top: 1.5rem;
+  border-top: 1px solid var(--border); padding-top: 1.5rem;
+}
+.m-metric-label {
+  color: var(--t3); font-size: 0.68rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.m-metric-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem; font-weight: 600;
+}
+
+/* ── PIPELINE ─────────────────────────────── */
+.pipeline-section { position: relative; z-index: 1; }
+.pipeline-steps {
+  display: flex; flex-direction: column; gap: 0;
+  position: relative; margin-top: 3rem;
+}
+.pipe-step {
+  display: flex; gap: 2rem; align-items: flex-start;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.pipe-step:last-child { border-bottom: none; }
+.pipe-num {
+  width: 48px; height: 48px; flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--dim);
+  border: 1px solid rgba(200,169,110,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 700; color: var(--gold);
+}
+.pipe-content {}
+.pipe-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-weight: 600; margin-bottom: 4px;
+}
+.pipe-desc { color: var(--t2); font-size: 0.88rem; }
+
+/* ── CTA SECTION ──────────────────────────── */
+.cta-section {
+  position: relative; z-index: 1;
+  padding: 8rem 2rem;
+  text-align: center;
+}
+.cta-box {
+  max-width: 700px; margin: 0 auto;
+  background: var(--card);
+  border: 1px solid rgba(200,169,110,0.2);
+  border-radius: 24px; padding: 4rem 3rem;
+  position: relative; overflow: hidden;
+}
+.cta-box::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.cta-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem; font-weight: 700; margin-bottom: 1rem;
+}
+.cta-sub { color: var(--t2); margin-bottom: 2.5rem; font-size: 1rem; }
+
+/* ── FOOTER ───────────────────────────────── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 4rem;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; color: var(--t2);
+}
+.footer-links { display: flex; gap: 2rem; }
+.footer-links a {
+  color: var(--t3); text-decoration: none; font-size: 0.8rem;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--gold); }
+
+/* ── ANIMATIONS ───────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: all 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ───────────────────────────── */
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .stats-inner { flex-direction: column; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+  .models-grid { grid-template-columns: 1fr; }
+  .pipe-step { flex-direction: column; gap: 1rem; }
+  footer { flex-direction: column; text-align: center; padding: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="glow-orb one"></div>
+<div class="glow-orb two"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-hex">⬡</div>
+    <span class="nav-brand">CreditWise</span>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#models">Models</a>
+    <a href="#pipeline">Pipeline</a>
+    <!-- REPLACE href with your Streamlit Cloud URL after deployment -->
+    <a href="https://your-app.streamlit.app" class="nav-cta">Launch App →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    ML Engine · 3 Classifiers Active
+  </div>
+
+  <h1 class="hero-title">
+    Intelligent Loan Decisions<br>
+    Powered by <span class="highlight">Machine Learning</span>
+  </h1>
+
+  <p class="hero-sub">
+    CreditWise brings data-driven precision to SecureTrust Bank's loan
+    approval process — reducing bias, accelerating decisions, and protecting
+    the bank's financial health.
+  </p>
+
+  <div class="hero-actions">
+    <!-- REPLACE href with your Streamlit Cloud URL after deployment -->
+    <a href="https://your-app.streamlit.app" class="btn-primary" target="_blank">
+      ⬡ &nbsp;Launch the App
+    </a>
+    <a href="#features" class="btn-secondary">
+      Learn More ↓
+    </a>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item reveal">
+      <div class="stat-num">87.5%</div>
+      <div class="stat-label">Best Model Accuracy</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">1,000</div>
+      <div class="stat-label">Training Records</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">3</div>
+      <div class="stat-label">ML Classifiers</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">27</div>
+      <div class="stat-label">Engineered Features</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-eyebrow">Core Capabilities</div>
+  <h2 class="section-title">
+    Everything needed for<br>intelligent credit decisions
+  </h2>
+  <p class="section-sub">
+    From raw application data to a final Approved / Rejected decision
+    in milliseconds — with full transparency on model confidence.
+  </p>
+
+  <div class="features-grid">
+    <div class="feat-card reveal">
+      <div class="feat-icon">🧠</div>
+      <div class="feat-title">Three Classifiers</div>
+      <div class="feat-desc">Logistic Regression, K-Nearest Neighbours (k=5), and Gaussian Naïve Bayes — compare predictions across models instantly.</div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">📊</div>
+      <div class="feat-title">Full Model Metrics</div>
+      <div class="feat-desc">Accuracy, Precision, Recall, F1 Score, and Confusion Matrices displayed interactively for every model on the test split.</div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">⚡</div>
+      <div class="feat-title">Real-time Prediction</div>
+      <div class="feat-desc">Enter any applicant's details and get an instant Approved / Rejected verdict with a probability confidence breakdown.</div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">🔧</div>
+      <div class="feat-title">Feature Engineering</div>
+      <div class="feat-desc">DTI² and Credit Score² polynomial features improve model sensitivity to critical financial risk indicators.</div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">📐</div>
+      <div class="feat-title">Robust Preprocessing</div>
+      <div class="feat-desc">Mean/mode imputation, One-Hot Encoding, Label Encoding, and StandardScaling — exactly as implemented in the research notebook.</div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">🎨</div>
+      <div class="feat-title">Premium Dashboard</div>
+      <div class="feat-desc">Dark fintech UI with interactive Plotly charts, gauge meters, and donut charts for a production-grade analytical experience.</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODELS -->
+<section class="models-section" id="models">
+  <div class="models-inner">
+    <div class="section-eyebrow">Trained Models</div>
+    <h2 class="section-title">Three Classifiers. One System.</h2>
+    <p class="section-sub">Each model is trained on the same 80/20 stratified split and evaluated on held-out test data.</p>
+
+    <div class="models-grid">
+      <div class="model-card featured reveal">
+        <div class="model-name">Logistic Regression</div>
+        <div style="color:var(--t2);font-size:0.8rem">Linear probabilistic classifier</div>
+        <div class="model-acc">87.5%</div>
+        <div style="color:var(--t2);font-size:0.75rem;text-transform:uppercase;
+            letter-spacing:0.08em">Accuracy</div>
+        <div class="model-metrics">
+          <div>
+            <div class="m-metric-label">Precision</div>
+            <div class="m-metric-val" style="color:var(--gold)">79.0%</div>
+          </div>
+          <div>
+            <div class="m-metric-label">Recall</div>
+            <div class="m-metric-val" style="color:var(--blue)">80.3%</div>
+          </div>
+          <div>
+            <div class="m-metric-label">F1 Score</div>
+            <div class="m-metric-val" style="color:var(--green)">79.7%</div>
+          </div>
+          <div>
+            <div class="m-metric-label">Model</div>
+            <div class="m-metric-val" style="color:var(--t2);font-size:0.9rem">LogReg</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="model-card reveal">
+        <div class="model-name">Naive Bayes</div>
+        <div style="color:var(--t2);font-size:0.8rem">Probabilistic Gaussian classifier</div>
+        <div class="model-acc" style="color:var(--green)">86.5%</div>
+        <div style="color:var(--t2);font-size:0.75rem;text-transform:uppercase;
+            letter-spacing:0.08em">Accuracy</div>
+        <div class="model-metrics">
+          <div>
+            <div class="m-metric-label">Precision</div>
+            <div class="m-metric-val" style="color:var(--gold)">78.3%</div>
+          </div>
+          <div>
+            <div class="m-metric-label">Recall</div>
+            <div class="m-metric-val" style="color:var(--blue)">77.0%</div>
+          </div>
+          <div>
+            <div class="m-metric-label">F1 Score</div>
+            <div class="m-metric-val" style="color:var(--green)">77.7%</div>
+          </div>
+          <div>
+            <div class="m-metric-label">Model</div>
+            <div class="m-metric-val" style="color:var(--t2);font-size:0.9rem">GaussianNB</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="model-card reveal">
+        <div class="model-name">KNN (k=5)</div>
+        <div style="color:var(--t2);font-size:0.8rem">Distance-based instance classifier</div>
+        <div class="model-acc" style="color:var(--blue)">75.5%</div>
+        <div style="color:var(--t2);font-size:0.75rem;text-transform:uppercase;
+            letter-spacing:0.08em">Accuracy</div>
+        <div class="model-metrics">
+          <div>
+            <div class="m-metric-label">Precision</div>
+            <div class="m-metric-val" style="color:var(--gold)">62.0%</div>
+          </div>
+          <div>
+            <div class="m-metric-label">Recall</div>
+            <div class="m-metric-val" style="color:var(--blue)">50.8%</div>
+          </div>
+          <div>
+            <div class="m-metric-label">F1 Score</div>
+            <div class="m-metric-val" style="color:var(--green)">55.9%</div>
+          </div>
+          <div>
+            <div class="m-metric-label">Model</div>
+            <div class="m-metric-val" style="color:var(--t2);font-size:0.9rem">KNN</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section class="section pipeline-section" id="pipeline">
+  <div class="section-eyebrow">ML Pipeline</div>
+  <h2 class="section-title">From raw data to decision</h2>
+  <p class="section-sub">Every step follows the original research notebook exactly — data integrity preserved end-to-end.</p>
+
+  <div class="pipeline-steps">
+    <div class="pipe-step reveal">
+      <div class="pipe-num">1</div>
+      <div class="pipe-content">
+        <div class="pipe-title">Data Loading &amp; Exploration</div>
+        <div class="pipe-desc">Load <code style="color:var(--gold);background:var(--dim);padding:2px 6px;border-radius:4px">loan_approval_data.csv</code> — 1,000 applicant records, 20 features covering income, credit history, employment, and loan details.</div>
+      </div>
+    </div>
+    <div class="pipe-step reveal">
+      <div class="pipe-num">2</div>
+      <div class="pipe-content">
+        <div class="pipe-title">Missing Value Imputation</div>
+        <div class="pipe-desc">Numerical columns filled with column means via <code style="color:var(--gold);background:var(--dim);padding:2px 6px;border-radius:4px">SimpleImputer(strategy='mean')</code>. Categorical columns filled with most-frequent values.</div>
+      </div>
+    </div>
+    <div class="pipe-step reveal">
+      <div class="pipe-num">3</div>
+      <div class="pipe-content">
+        <div class="pipe-title">Label Encoding</div>
+        <div class="pipe-desc"><code style="color:var(--gold);background:var(--dim);padding:2px 6px;border-radius:4px">LabelEncoder</code> applied to <em>Education_Level</em> (Graduate=0 / Not Graduate=1) and target <em>Loan_Approved</em> (No=0 / Yes=1).</div>
+      </div>
+    </div>
+    <div class="pipe-step reveal">
+      <div class="pipe-num">4</div>
+      <div class="pipe-content">
+        <div class="pipe-title">One-Hot Encoding</div>
+        <div class="pipe-desc"><code style="color:var(--gold);background:var(--dim);padding:2px 6px;border-radius:4px">OneHotEncoder(drop='first')</code> applied to Employment Status, Marital Status, Loan Purpose, Property Area, Gender, and Employer Category — creating 15 binary features.</div>
+      </div>
+    </div>
+    <div class="pipe-step reveal">
+      <div class="pipe-num">5</div>
+      <div class="pipe-content">
+        <div class="pipe-title">Feature Engineering</div>
+        <div class="pipe-desc">Polynomial features added: <code style="color:var(--gold);background:var(--dim);padding:2px 6px;border-radius:4px">DTI_Ratio²</code> and <code style="color:var(--gold);background:var(--dim);padding:2px 6px;border-radius:4px">Credit_Score²</code>. Original DTI and Credit Score then dropped from X — 27 final features.</div>
+      </div>
+    </div>
+    <div class="pipe-step reveal">
+      <div class="pipe-num">6</div>
+      <div class="pipe-content">
+        <div class="pipe-title">Train / Test Split + Scaling</div>
+        <div class="pipe-desc">80/20 split with <code style="color:var(--gold);background:var(--dim);padding:2px 6px;border-radius:4px">random_state=42</code>. Features standardised with <code style="color:var(--gold);background:var(--dim);padding:2px 6px;border-radius:4px">StandardScaler</code> fit on training data only — no data leakage.</div>
+      </div>
+    </div>
+    <div class="pipe-step reveal">
+      <div class="pipe-num">7</div>
+      <div class="pipe-content">
+        <div class="pipe-title">Model Training &amp; Evaluation</div>
+        <div class="pipe-desc">Three classifiers trained: <strong>Logistic Regression</strong>, <strong>KNN (k=5)</strong>, <strong>Gaussian Naïve Bayes</strong>. Each evaluated on precision, recall, F1, accuracy, and confusion matrix.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-box reveal">
+    <div style="font-size:3rem;margin-bottom:1rem">⬡</div>
+    <h2 class="cta-title">Ready to analyse an application?</h2>
+    <p class="cta-sub">Launch the interactive Streamlit dashboard to run live predictions with your own applicant data.</p>
+    <!-- REPLACE href with your Streamlit Cloud URL after deployment -->
+    <a href="" class="btn-primary" target="_blank"
+       style="display:inline-flex">
+      ⬡ &nbsp;Open CreditWise App
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">CreditWise · SecureTrust Bank ML System</div>
+  <div class="footer-links">
+    <a href="#features">Features</a>
+    <a href="#models">Models</a>
+    <a href="#pipeline">Pipeline</a>
+  </div>
+  <div style="color:var(--t3);font-size:0.75rem">
+    Built with Streamlit · Scikit-learn · Plotly
+  </div>
+</footer>
+
+<script>
+// ── Intersection Observer for .reveal ─────
+const observer = new IntersectionObserver(
+  (entries) => entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  }),
+  { threshold: 0.12 }
+);
+document.querySelectorAll('.reveal')
+  .forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 0.08 + 's';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
