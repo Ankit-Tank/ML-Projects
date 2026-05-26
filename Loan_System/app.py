@@ -1,3 +1,5 @@
+import os
+
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -327,7 +329,12 @@ def result_card_rejected(confidence, model_name):
 # ─────────────────────────────────────────────
 @st.cache_resource(show_spinner=False)
 def load_and_train():
-    df = pd.read_csv("loan_approval_data.csv")
+    import os
+
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    csv_path = os.path.join(BASE_DIR, "loan_approval_data.csv")
+
+    df = pd.read_csv(csv_path)
 
     # Identify types
     categorical_cols = df.select_dtypes(include=["object"]).columns
