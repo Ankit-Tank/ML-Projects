@@ -1,5 +1,3 @@
-import os
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -329,12 +327,7 @@ def result_card_rejected(confidence, model_name):
 # ─────────────────────────────────────────────
 @st.cache_resource(show_spinner=False)
 def load_and_train():
-    import os
-
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    csv_path = os.path.join(BASE_DIR, "loan_approval_data.csv")
-
-    df = pd.read_csv(csv_path)
+    df = pd.read_csv("loan_approval_data.csv")
 
     # Identify types
     categorical_cols = df.select_dtypes(include=["object"]).columns
@@ -557,74 +550,34 @@ def make_cm_heatmap(cm, model_name):
 
 def make_bar_comparison(metrics):
     model_names = list(metrics.keys())
-
-    acc  = [metrics[m]["accuracy"] for m in model_names]
+    acc  = [metrics[m]["accuracy"]  for m in model_names]
     prec = [metrics[m]["precision"] for m in model_names]
-    rec  = [metrics[m]["recall"] for m in model_names]
-    f1   = [metrics[m]["f1"] for m in model_names]
+    rec  = [metrics[m]["recall"]    for m in model_names]
+    f1   = [metrics[m]["f1"]        for m in model_names]
 
     fig = go.Figure()
-
     palette = ["#C8A96E", "#38BDF8", "#10B981", "#A78BFA"]
-
     for vals, label, clr in zip(
         [acc, prec, rec, f1],
         ["Accuracy", "Precision", "Recall", "F1 Score"],
         palette,
     ):
-
-        fig.add_trace(
-            go.Bar(
-                name=label,
-                x=model_names,
-                y=[v * 100 for v in vals],
-                marker_color=clr,
-                marker_line_color="rgba(0,0,0,0)",
-                opacity=0.9,
-            )
-        )
-
+        fig.add_trace(go.Bar(
+            name=label, x=model_names, y=[v * 100 for v in vals],
+            marker_color=clr,
+            marker_line_color="rgba(0,0,0,0)",
+            opacity=0.9,
+        ))
     fig.update_layout(
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-
-        font=dict(
-            family="Outfit, sans-serif",
-            color="#9CA3AF"
-        ),
-
-        margin=dict(
-            l=0,
-            r=0,
-            t=30,
-            b=0
-        ),
-
+        **PLOTLY_LAYOUT,
         barmode="group",
-
-        xaxis=dict(
-            gridcolor="rgba(0,0,0,0)",
-            zerolinecolor="rgba(0,0,0,0)"
-        ),
-
-        yaxis=dict(
-            title="Score (%)",
-            range=[0, 105],
-            gridcolor="rgba(255,255,255,0.05)",
-            zerolinecolor="rgba(255,255,255,0.05)"
-        ),
-
-        legend=dict(
-            orientation="h",
-            yanchor="bottom",
-            y=1.02,
-            bgcolor="rgba(0,0,0,0)",
-            font=dict(color="#9CA3AF")
-        ),
-
+        yaxis=dict(title="Score (%)", range=[0, 105],
+                   gridcolor="rgba(255,255,255,0.05)", zerolinecolor="rgba(255,255,255,0.05)"),
+        xaxis=dict(gridcolor="rgba(0,0,0,0)", zerolinecolor="rgba(0,0,0,0)"),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02,
+                    bgcolor="rgba(0,0,0,0)", font=dict(color="#9CA3AF")),
         height=340,
     )
-
     return fig
 
 
