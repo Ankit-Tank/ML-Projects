@@ -576,16 +576,26 @@ def make_bar_comparison(metrics):
             opacity=0.9,
         ))
     fig.update_layout(
-        **PLOTLY_LAYOUT,
-        barmode="group",
-        yaxis=dict(title="Score (%)", range=[0, 105],
-                   gridcolor="rgba(255,255,255,0.05)", zerolinecolor="rgba(255,255,255,0.05)"),
-        xaxis=dict(gridcolor="rgba(0,0,0,0)", zerolinecolor="rgba(0,0,0,0)"),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02,
-                    bgcolor="rgba(0,0,0,0)", font=dict(color="#9CA3AF")),
-        height=340,
-    )
-    return fig
+    barmode="group",
+    yaxis=dict(
+        title="Score (%)",
+        range=[0, 105],
+        gridcolor="rgba(255,255,255,0.05)",
+        zerolinecolor="rgba(255,255,255,0.05)"
+    ),
+    xaxis=dict(
+        gridcolor="rgba(0,0,0,0)",
+        zerolinecolor="rgba(0,0,0,0)"
+    ),
+    legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        bgcolor="rgba(0,0,0,0)",
+        font=dict(color="#9CA3AF")
+    ),
+    height=340,
+)
 
 
 def make_proba_donut(proba, labels=("Rejected", "Approved")):
