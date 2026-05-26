@@ -536,15 +536,31 @@ def make_cm_heatmap(cm, model_name):
         showscale=False,
         textfont={"size": 20, "family": "Cormorant Garamond", "color": "#F0EDE8"},
     ))
+
     fig.update_layout(
-        **PLOTLY_LAYOUT,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(family="Outfit, sans-serif", color="#9CA3AF"),
+        margin=dict(l=0, r=0, t=30, b=0),
+
         title=dict(text=model_name, font=dict(size=14, color="#9CA3AF")),
-        xaxis=dict(title="Predicted", side="bottom",
-                   gridcolor="rgba(0,0,0,0)", zerolinecolor="rgba(0,0,0,0)"),
-        yaxis=dict(title="Actual",
-                   gridcolor="rgba(0,0,0,0)", zerolinecolor="rgba(0,0,0,0)"),
+
+        xaxis=dict(
+            title="Predicted",
+            side="bottom",
+            gridcolor="rgba(0,0,0,0)",
+            zerolinecolor="rgba(0,0,0,0)"
+        ),
+
+        yaxis=dict(
+            title="Actual",
+            gridcolor="rgba(0,0,0,0)",
+            zerolinecolor="rgba(0,0,0,0)"
+        ),
+
         height=260,
     )
+
     return fig
 
 
@@ -557,27 +573,52 @@ def make_bar_comparison(metrics):
 
     fig = go.Figure()
     palette = ["#C8A96E", "#38BDF8", "#10B981", "#A78BFA"]
+
     for vals, label, clr in zip(
         [acc, prec, rec, f1],
         ["Accuracy", "Precision", "Recall", "F1 Score"],
         palette,
     ):
         fig.add_trace(go.Bar(
-            name=label, x=model_names, y=[v * 100 for v in vals],
+            name=label,
+            x=model_names,
+            y=[v * 100 for v in vals],
             marker_color=clr,
             marker_line_color="rgba(0,0,0,0)",
             opacity=0.9,
         ))
+
     fig.update_layout(
-        **PLOTLY_LAYOUT,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(family="Outfit, sans-serif", color="#9CA3AF"),
+        margin=dict(l=0, r=0, t=30, b=0),
+
         barmode="group",
-        yaxis=dict(title="Score (%)", range=[0, 105],
-                   gridcolor="rgba(255,255,255,0.05)", zerolinecolor="rgba(255,255,255,0.05)"),
-        xaxis=dict(gridcolor="rgba(0,0,0,0)", zerolinecolor="rgba(0,0,0,0)"),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02,
-                    bgcolor="rgba(0,0,0,0)", font=dict(color="#9CA3AF")),
+
+        yaxis=dict(
+            title="Score (%)",
+            range=[0, 105],
+            gridcolor="rgba(255,255,255,0.05)",
+            zerolinecolor="rgba(255,255,255,0.05)"
+        ),
+
+        xaxis=dict(
+            gridcolor="rgba(0,0,0,0)",
+            zerolinecolor="rgba(0,0,0,0)"
+        ),
+
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            bgcolor="rgba(0,0,0,0)",
+            font=dict(color="#9CA3AF")
+        ),
+
         height=340,
     )
+
     return fig
 
 
