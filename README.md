@@ -120,7 +120,7 @@
 | K-Nearest Neighbors | ✅ | — | 2 | `Complete` |
 | Naive Bayes | ✅ | — | 1 | `Complete` |
 | Iris Classification | ✅ | — | 1 + App | `Complete` |
-| Decision Tree | — | — | — | `Upcoming` |
+| Decision Tree | ✅ | — | — | `Upcoming` |
 | Random Forest | — | — | — | `Upcoming` |
 | SVM | — | — | — | `Upcoming` |
 | K-Means Clustering | — | — | — | `Upcoming` |
