@@ -127,7 +127,7 @@
 | PCA | — | — | — | `Upcoming` |
 | Neural Networks | — | — | — | `Upcoming` |
 
-**Progress: `▓▓▓▓▓▓░░░░░░`  / 12 algorithms**
+**Progress: `▓▓▓▓▓▓▓░░░░░` 7 / 12 algorithms**
 
 ---
 
