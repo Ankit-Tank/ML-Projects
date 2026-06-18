@@ -14,8 +14,10 @@ build/
 
 # Virtual Environment
 venv/
+.venv/
 env/
 .env
+
 
 # OS files
 .DS_Store
