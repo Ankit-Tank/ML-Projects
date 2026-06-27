@@ -121,8 +121,8 @@
 | Naive Bayes | ✅ | — | 1 | `Complete` |
 | Iris Classification | ✅ | — | 1 + App | `Complete` |
 | Decision Tree | ✅ | — | 1 | `Complete` |
-| Random Forest | — | — | — | `Upcoming` |
 | SVM | — | — | — | `Upcoming` |
+| Random Forest | — | — | — | `Upcoming` |
 | K-Means Clustering | — | — | — | `Upcoming` |
 | PCA | — | — | — | `Upcoming` |
 | Neural Networks | — | — | — | `Upcoming` |
