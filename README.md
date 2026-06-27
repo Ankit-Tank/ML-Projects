@@ -522,12 +522,12 @@ Phase 1 — Supervised Learning         ████████████ COM
   ✅  Iris App (Streamlit deployment)
   ✅  Scratch Implementations (OLS + GD)
 
-Phase 2 — Tree-Based & Ensemble       ░░░░░░░░░░░░ UPCOMING
+Phase 2 — Tree-Based & Ensemble       ███░░░░░░░░░ WORKING
 ─────────────────────────────────────────────────────────
-  ○  Decision Tree
-  ○  Random Forest
+  ✅  Decision Tree
+  ⏳  Support Vector Machine (SVM)
   ○  Gradient Boosting / XGBoost
-  ○  Support Vector Machine (SVM)
+  ○  Random Forest
 
 Phase 3 — Unsupervised Learning        ░░░░░░░░░░░░ UPCOMING
 ─────────────────────────────────────────────────────────
