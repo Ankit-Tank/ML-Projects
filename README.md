@@ -115,12 +115,12 @@
 | Algorithm | Library | From Scratch | Projects | Status |
 |:----------|:-------:|:------------:|:--------:|:------:|
 | Linear Regression | ✅ | `Status - Working` | 3 | `Complete` |
-| Lasso Regression | ✅ | — | 1 | `Complete` |
-| Logistic Regression | ✅ | — | 2 | `Complete` |
-| K-Nearest Neighbors | ✅ | — | 2 | `Complete` |
-| Naive Bayes | ✅ | — | 1 | `Complete` |
-| Iris Classification | ✅ | — | 1 + App | `Complete` |
-| Decision Tree | ✅ | — | 1 | `Complete` |
+| Lasso Regression | ✅ | N/A | 1 | `Complete` |
+| Logistic Regression | ✅ | N/A | 2 | `Complete` |
+| K-Nearest Neighbors | ✅ | N/A | 2 | `Complete` |
+| Naive Bayes | ✅ | N/A | 1 | `Complete` |
+| Iris Classification | ✅ | N/A | 1 + App | `Complete` |
+| Decision Tree | ✅ | N/A | 1 | `Complete` |
 | SVM | ⏳ | — | — | `Working` |
 | Random Forest | — | — | — | `Upcoming` |
 | K-Means Clustering | — | — | — | `Upcoming` |
