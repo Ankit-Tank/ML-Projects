@@ -58,8 +58,8 @@
 ```
                     ╭──────────────────────────────────────────╮
                     │                                          │
-        INPUT       │              ML-Projects  🧠             │         OUTPUT
-       LAYER        │                                          │       LAYER
+    INPUT           │              ML-Projects  🧠             │       OUTPUT
+       LAYER        │                                          │           LAYER
                     │    Raw Data  ──►  Learn  ──►  Predict    │
     ┌──────────┐    │                                          │    ┌──────────┐
     │  .csv    │───►│   Linear   Logistic   KNN   Naive Bayes  │───►│  Model   │
